@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, flash, request, jsonify, send_file
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+from flask_mail import Mail, Message
 from datetime import datetime, date, timedelta
 from sqlalchemy import extract
 import mistune
@@ -14,6 +15,8 @@ from utils import get_ai_greeting, get_ai_analysis, perform_ai_search
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+mail = Mail(app)
 
 db.init_app(app)
 login_manager = LoginManager()
