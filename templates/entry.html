@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="entry-editor-container">
+    <h2>Entry for {{ entry_date.strftime('%B %d, %Y') }}</h2>
+    <form method="POST">
+        <div class="editor-pane">
+            <textarea name="content" id="markdown-input" placeholder="How was your day?">{{ entry.content if entry else '' }}</textarea>
+        </div>
+        <div class="editor-actions">
+            <button type="submit" class="btn-primary">Save & Analyze</button>
+            <a href="{{ url_for('journal_view') }}" class="btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

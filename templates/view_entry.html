@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="entry-view-container">
+    <div class="entry-view-header">
+        <h1>{{ entry.date.strftime('%A, %B %d, %Y') }}</h1>
+        <a href="{{ url_for('edit_entry', date_str=entry.date.strftime('%Y-%m-%d')) }}" class="btn-secondary">Edit Entry</a>
+    </div>
+    
+    <div class="entry-display">
+        <h3>Your Entry</h3>
+        <div class="markdown-content">
+            {{ entry.content_html|safe }}
+        </div>
+    </div>
+    
+    {% if entry.ai_response %}
+    <div class="ai-response">
+        <h3>AI Companion's Thoughts</h3>
+        <div class="markdown-content ai-content">
+            {{ entry.ai_response_html|safe }}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

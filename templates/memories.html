@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="memories-container" class="memories-container fade-in-down">
+    <div class="memories-header">
+        <h1>Memories</h1>
+        <button class="btn-primary" id="save-memories-btn">Save Changes</button>
+    </div>
+    <span id="memories-save-status"></span>
+    
+    <div class="memory-search-container">
+        <input type="text" id="memory-search-input" placeholder="Search memories...">
+    </div>
+    
+    <div class="tabs">
+        <button class="tab-link active" data-tab="user-memories-tab">Your Memories</button>
+        <button class="tab-link" data-tab="ai-memories-tab">AI Learned</button>
+        <button class="tab-link" data-tab="forgotten-memories-tab">Forgotten</button>
+    </div>
+    
+    <div id="user-memories-tab" class="tab-content active">
+        <textarea id="user-memories-textarea" spellcheck="false"></textarea>
+    </div>
+    <div id="ai-memories-tab" class="tab-content">
+        <textarea id="ai-memories-textarea" spellcheck="false"></textarea>
+    </div>
+    <div id="forgotten-memories-tab" class="tab-content">
+        <ul id="forgotten-memories-list"></ul>
+    </div>
+</div>
+{% endblock %}

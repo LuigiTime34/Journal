@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-container">
+    <h1 class="fade-in-item">Create Account</h1>
+    <form method="POST" action="{{ url_for('register') }}" class="fade-in-item" style="animation-delay: 0.1s;">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address (Optional)</label>
+            <input type="email" id="email" name="email" placeholder="Used for password resets & reminders">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn-primary btn-large"><i class="fas fa-user-plus"></i> Create Account</button>
+    </form>
+    <div class="auth-links fade-in-item" style="animation-delay: 0.2s;">
+        <a href="{{ url_for('login') }}">Already have an account?</a>
+    </div>
+</div>
+{% endblock %}

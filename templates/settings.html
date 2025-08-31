@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="settings-container">
+    <h1 class="fade-in-item">Settings</h1>
+
+    <!-- Account Settings -->
+    <div class="settings-section fade-in-item" style="animation-delay: 0.1s;">
+        <h2>Account</h2>
+        <form method="POST">
+            <input type="hidden" name="action" value="update_account">
+            <div class="form-group">
+                <label for="email">Email Address (for reminders)</label>
+                <input type="email" id="email" name="email" value="{{ current_user.email or '' }}" placeholder="you@example.com">
+            </div>
+            <div class="form-group">
+                <label for="reminder_time">Daily Reminder Time</label>
+                <select id="reminder_time" name="reminder_time">
+                    <option value="disabled" {% if not current_user.reminder_time %}selected{% endif %}>Disabled</option>
+                    {% for hour in range(24) %}
+                    <option value="{{ hour }}" {% if current_user.reminder_time == hour %}selected{% endif %}>
+                        {{ (hour % 12) if (hour % 12) != 0 else 12 }}:00 {{ 'AM' if hour < 12 else 'PM' }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-primary">Save Account Settings</button>
+        </form>
+    </div>
+
+    <!-- Change Password -->
+    <div class="settings-section fade-in-item" style="animation-delay: 0.2s;">
+        <h2>Change Password</h2>
+        <form method="POST">
+            <input type="hidden" name="action" value="change_password">
+            <div class="form-group"><label for="current_password">Current Password</label><input type="password" name="current_password" required></div>
+            <div class="form-group"><label for="new_password">New Password</label><input type="password" name="new_password" required></div>
+            <div class="form-group"><label for="confirm_password">Confirm New Password</label><input type="password" name="confirm_password" required></div>
+            <button type="submit" class="btn-primary">Update Password</button>
+        </form>
+    </div>
+
+    <!-- Preferences -->
+    <div class="settings-section fade-in-item" style="animation-delay: 0.3s;">
+        <h2>Preferences</h2>
+        <form method="POST" id="theme-form">
+            <input type="hidden" name="action" value="change_theme">
+            <div class="form-group">
+                <label>Theme</label>
+                <div class="theme-selector">
+                    {% for theme in ['nebula', 'daylight', 'dusk', 'mint'] %}
+                    <label class="theme-option">
+                        <input type="radio" name="theme" value="{{ theme }}" {% if current_user.theme == theme %}checked{% endif %} onchange="document.getElementById('theme-form').submit()">
+                        <span class="theme-swatch {{ 'theme-' + theme }}"></span>
+                        {{ theme.capitalize() }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Data Management -->
+    <div class="settings-section fade-in-item" style="animation-delay: 0.4s;">
+        <h2>Data Management</h2>
+        <a href="{{ url_for('export_data') }}" class="btn-secondary">Export All Data as .zip</a>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="settings-section danger-zone fade-in-item" style="animation-delay: 0.5s;">
+        <h2>Danger Zone</h2>
+        <div class="danger-action">
+            <p><strong>Clear all AI Memories.</strong> This cannot be undone.</p>
+            <form method="POST" onsubmit="return confirm('Are you sure you want to clear all AI memories?');"><input type="hidden" name="action" value="clear_ai_memories"><button type="submit" class="btn-danger">Clear Memories</button></form>
+        </div>
+        <div class="danger-action">
+            <p><strong>Delete all journal entries.</strong> This is permanent.</p>
+            <button class="btn-danger" onclick="openConfirmModal('clear_entries_modal')">Delete All Entries</button>
+        </div>
+        <div class="danger-action">
+            <p><strong>Delete your account.</strong> This will delete all data permanently.</p>
+            <button class="btn-danger" onclick="openConfirmModal('delete_account_modal')">Delete Account</button>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modals -->
+<div class="modal-overlay" id="modal-overlay"></div>
+<div class="modal" id="clear_entries_modal">
+    <h3>Are you absolutely sure?</h3>
+    <p>This will permanently delete all of your journal entries. To confirm, type <strong>destroyer_of_worlds</strong> below.</p>
+    <form method="POST">
+        <input type="hidden" name="action" value="clear_entries">
+        <input type="text" name="confirm_text" class="confirm-input" oninput="checkConfirmText(this, 'clear_entries_btn')">
+        <div class="modal-actions">
+            <button type="button" class="btn-secondary" onclick="closeConfirmModal()">Cancel</button>
+            <button type="submit" class="btn-danger" id="clear_entries_btn" disabled>Delete Entries</button>
+        </div>
+    </form>
+</div>
+<div class="modal" id="delete_account_modal">
+    <h3>This is your final warning.</h3>
+    <p>This will permanently delete your entire account and all associated data. To confirm, type <strong>destroyer_of_worlds</strong> below.</p>
+    <form method="POST">
+        <input type="hidden" name="action" value="delete_account">
+        <input type="text" name="confirm_text" class="confirm-input" oninput="checkConfirmText(this, 'delete_account_btn')">
+        <div class="modal-actions">
+            <button type="button" class="btn-secondary" onclick="closeConfirmModal()">Cancel</button>
+            <button type="submit" class="btn-danger" id="delete_account_btn" disabled>Delete My Account Permanently</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

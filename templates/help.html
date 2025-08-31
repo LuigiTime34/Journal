@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="help-container">
+    <h1 class="fade-in-down">How to Use JournAI</h1>
+    <div class="help-section fade-in-up" style="animation-delay: 0.2s;">
+        <h2><i class="fas fa-pen-nib"></i> Writing an Entry</h2>
+        <p>From the dashboard, choose "Make an Entry". You can either write for today or select a custom date from the weekly calendar view. The editor allows you to write using Markdown for formatting, such as using `#` for headers or `*` for italics and bold.</p>
+    </div>
+    <div class="help-section fade-in-up" style="animation-delay: 0.4s;">
+        <h2><i class="fas fa-brain"></i> Understanding Memories</h2>
+        <p>Your memories give your AI companion context about your life. Click the brain icon (<i class="fas fa-brain"></i>) in the header to open them. There are two types:</p>
+        <ul>
+            <li><strong>Your Memories:</strong> This is your space. Add core facts about yourself, your life, and your preferences (e.g., "My best friend's name is Sarah."). The AI treats this as the absolute truth.</li>
+            <li><strong>AI Learned:</strong> As you write, the AI will pick up on new details (like the name of a pet or a new hobby) and add them here automatically. You can review, edit, or delete these.</li>
+        </ul>
+    </div>
+     <div class="help-section fade-in-up" style="animation-delay: 0.6s;">
+        <h2><i class="fas fa-book-open"></i> The Journal View</h2>
+        <p>This is your timeline. You can navigate between weeks using the arrows. Days with entries are filled in, while empty days are a prompt to write. Click any day to read or write an entry for that date.</p>
+    </div>
+</div>
+{% endblock %}

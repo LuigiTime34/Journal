@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard-container">
+    <h1 class="fade-in-down">Create a New Entry</h1>
+    <p class="fade-in-down" style="animation-delay: 0.2s;">Would you like to write for today or choose another date?</p>
+    <div class="dashboard-actions fade-in-up">
+        <a href="{{ url_for('new_entry_today') }}" class="btn-primary btn-large">
+            <i class="fas fa-pen-nib"></i> Write for Today
+        </a>
+        <a href="{{ url_for('journal_view') }}" class="btn-secondary btn-large">
+            <i class="fas fa-calendar-alt"></i> Choose a Custom Date
+        </a>
+    </div>
+</div>
+{% endblock %}

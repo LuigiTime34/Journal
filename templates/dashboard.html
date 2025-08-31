@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="dashboard-container">
+<!-- These elements now use the new animation class -->
+<h1 class="fade-in-item"><b>{{ greeting }}</b></h1>
+<p class="fade-in-item" style="animation-delay: 0.1s;">What would you like to do?</p>
+<div class="dashboard-actions">
+<a href="{{ url_for('choose_entry_date') }}" class="btn-primary btn-large fade-in-item" style="animation-delay: 0.2s;">
+<i class="fas fa-plus-circle"></i> Make an Entry
+</a>
+<a href="{{ url_for('journal_view') }}" class="btn-secondary btn-large fade-in-item" style="animation-delay: 0.3s;">
+<i class="fas fa-book-open"></i> View Previous Entries
+</a>
+</div>
+{% if on_this_day_entries %}
+<div class="on-this-day-container">
+    <h2 class="fade-in-item" style="animation-delay: 0.4s;">On This Day...</h2>
+    {% for entry in on_this_day_entries %}
+    <!-- Staggered animation delay based on the loop index -->
+    <a href="{{ url_for('view_entry', date_str=entry.date.strftime('%Y-%m-%d')) }}" class="on-this-day-card fade-in-item" style="animation-delay: {{ 0.5 + loop.index0 * 0.1 }}s;">
+        <div class="year-tag">{{ entry.date.year }}</div>
+        <p>"{{ entry.content | truncate(150, true) }}"</p>
+    </a>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" class="{{ 'theme-' + current_user.theme if current_user.is_authenticated else 'theme-nebula' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JournAI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    <div id="app-container">
+        <header class="app-header">
+            <a href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('login') }}" class="logo">
+                JournAI
+            </a>
+            <nav>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('dashboard') }}" class="icon-button" data-tooltip="Home"><i class="fas fa-home"></i></a>
+                    <a href="{{ url_for('choose_entry_date') }}" class="icon-button" data-tooltip="New Entry"><i class="fas fa-plus"></i></a>
+                    <a href="{{ url_for('journal_view') }}" class="icon-button" data-tooltip="Journal"><i class="fas fa-book-open"></i></a>
+                    <a href="{{ url_for('search') }}" class="icon-button" data-tooltip="Search"><i class="fas fa-search"></i></a>
+                    <a href="{{ url_for('memories_page') }}" class="icon-button" data-tooltip="Memories"><i class="fas fa-brain"></i></a>
+                    <a href="{{ url_for('settings_page') }}" class="icon-button" data-tooltip="Settings"><i class="fas fa-cog"></i></a>
+                    <a href="{{ url_for('logout') }}" class="icon-button" data-tooltip="Logout"><i class="fas fa-sign-out-alt"></i></a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                    <a href="{{ url_for('register') }}" class="nav-link primary">Register</a>
+                {% endif %}
+            </nav>
+        </header>
+        <main class="main-content">
+            <div class="page-content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    <footer class="app-footer">
+        <a href="{{ url_for('help_page') }}">Help</a>
+    </footer>
+    <script src="https://kit.fontawesome.com/489a7d0c9b.js" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
